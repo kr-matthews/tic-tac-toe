@@ -2,8 +2,7 @@
 
 function PlayerSelection({players, setPlayers}) {
 
-  console.log("player selection");
-  console.log(players);
+  /* leaving this aside until GamePlay.js is somewhat functional */
 
   return "player selection"
 }

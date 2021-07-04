@@ -4,18 +4,25 @@ import Board from './Board.js'
 
 function GamePlay({players, setPlayers, goFirst}) {
 
-  console.log("game play");
-  console.log(players);
-
   /* constants */
   const [board, setBoard] =
-    useState([[null, null, null],[null, null, null],[null, null, null]]);
+    useState([[-1, -1, -1],[-1, -1, -1],[-1, -1, -1]]);
+    /* board position is i for player i, -1 for empty */
   const [nextTurn, setNextTurn] = useState(goFirst);
 
   return (
     <>
-      <Header players={players} Header/>
-      <Board board={board} Board/ >
+      <Header
+        players={players}
+        nextTurn={nextTurn}
+      Header/>
+      <Board
+        players={players}
+        nextTurn={nextTurn}
+        setNextTurn={setNextTurn}
+        board={board}
+        setBoard={setBoard}
+      Board/>
     </>
   )
 }

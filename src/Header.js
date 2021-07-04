@@ -1,17 +1,20 @@
 
 
-function Header({ players }) {
+function Header({ players, nextTurn }) {
 
-  const [p1, p2] = players;
-  /* name, type (0 human, else comp id), colour, wins */
+  const [p0, p1] = players;
 
   return (
     <>
-      <div>header</div>
-      <div>{p1.name}</div>
-      <div>{p1.wins}</div>
-      <div>{p2.wins}</div>
-      <div>{p2.name}</div>
+      <header>
+        <span>{p0.piece}-</span>
+        <span>{p0.name}-</span>
+        <span>{p0.wins}-</span>
+        <span>{p1.wins}-</span>
+        <span>{p1.name}-</span>
+        <span>{p1.piece}</span>
+        <div>Next to play: {players[nextTurn].name}</div>
+      </header>
     </>
   )
 }
