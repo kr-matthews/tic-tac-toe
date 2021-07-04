@@ -8,8 +8,16 @@ import './css/index.css'
 function App() {
 
   /* constants */
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState(
+    [
+      {name: "Alice", wins: 4},
+      {name: "Bob", wins: 7}
+    ]
+  );
+  /* dummy data for testing */
+  /* useState([]) */
 
+  /* should be < 2 */
   if (players.length < -2) {
     return (
       <PlayerSelection

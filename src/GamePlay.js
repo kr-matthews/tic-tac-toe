@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import Header from './Header.js'
+import Board from './Board.js'
 
 function GamePlay({players, setPlayers, goFirst}) {
 
@@ -12,8 +14,8 @@ function GamePlay({players, setPlayers, goFirst}) {
 
   return (
     <>
-      <div>game play</div>
-      <div className="board">{board}</div>
+      <Header players={players} Header/>
+      <Board board={board} Board/ >
     </>
   )
 }
