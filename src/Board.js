@@ -8,7 +8,23 @@ function Board({ board, setBoard, players, nextTurn, setNextTurn }) {
     board[r_ind][c_ind] = player;
     setBoard(board);
     // TODO: check win conditions here
+    if (won(board, r_ind, c_ind, player)) {
+      // TODO: reset board, nextTurn, player win counts
+      console.log(players[board[r_ind][c_ind]].name, "wins");
+    }
     setNextTurn(1 - player);
+  }
+
+  function won(board, r, c, p) {
+    return (
+      all_eq([p, board[0][c], board[1][c], board[2][c]]) ||
+      all_eq([p, board[r][0], board[r][1], board[r][2]]) ||
+      all_eq([p, board[0][0], board[1][1], board[2][2]]) ||
+      all_eq([p, board[0][2], board[1][1], board[2][0]])
+    )
+  }
+  function all_eq(arr) {
+    return (new Set(arr)).size === 1
   }
 
   return (

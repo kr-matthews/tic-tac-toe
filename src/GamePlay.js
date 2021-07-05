@@ -12,6 +12,7 @@ function GamePlay({players, setPlayers, goFirst}) {
 
   return (
     <>
+    <div>WIP</div>
       <Header
         players={players}
         nextTurn={nextTurn}
