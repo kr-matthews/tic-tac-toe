@@ -1,6 +1,6 @@
 
 
-function Header({ players, nextTurn }) {
+function Header({ players, toPlay }) {
 
   const [p0, p1] = players;
 
@@ -13,7 +13,6 @@ function Header({ players, nextTurn }) {
         <span>{p1.wins}-</span>
         <span>{p1.name}-</span>
         <span>{p1.piece}</span>
-        <div>Next to play: {players[nextTurn].name}</div>
       </header>
     </>
   )

@@ -8,19 +8,19 @@ function GamePlay({players, setPlayers, goFirst}) {
   const [board, setBoard] =
     useState([[-1, -1, -1],[-1, -1, -1],[-1, -1, -1]]);
     /* board position is i for player i, -1 for empty */
-  const [nextTurn, setNextTurn] = useState(goFirst);
+  const [toPlay, setToPlay] = useState(goFirst);
 
   return (
     <>
     <div>WIP</div>
       <Header
         players={players}
-        nextTurn={nextTurn}
+        toPlay={toPlay}
       Header/>
       <Board
         players={players}
-        nextTurn={nextTurn}
-        setNextTurn={setNextTurn}
+        toPlay={toPlay}
+        setToPlay={setToPlay}
         board={board}
         setBoard={setBoard}
       Board/>
