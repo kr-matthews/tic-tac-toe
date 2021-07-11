@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import PlayerSelection from './PlayerSelection.js'
 import GamePlay from './GamePlay.js'
 
 import './css/index.css'
@@ -8,34 +7,21 @@ import './css/index.css'
 function App() {
 
   /* constants */
-  /* a player consists of: name, colour, piece, type, wins, draws, loses */
+  /* a player consists of: name, colour, type, wins, draws, loses */
   const [players, setPlayers] = useState(
     [
-      {name: "Alice", colour: "blue", piece: "x",
-        type: 0, wins: 3, draws: 5, loses: 1},
-      {name: "Bob", colour: "red", piece: "o",
-        type: 0, wins: 1, draws: 5, loses: 3}
+      /* dummy data for testing, initial state should be [] */
+      {name: "Alice", colour: "blue", type: 0, wins: 0, draws: 0, loses: 0},
+      {name: "Bob", colour: "red", type: 0, wins: 0, draws: 0, loses: 0}
     ]
   );
-  /* dummy data for testing, initial state should be [] */
 
-  /* should be < 2 */
-  if (players.length < -2) {
-    return (
-      <PlayerSelection
-        players={players}
-        setPlayers={setPlayers}
-      />
-    )
-  } else {
-    return (
-      <GamePlay
-        players={players}
-        setPlayers={setPlayers}
-        goFirst={0}
-      />
-    )
-  }
+  return (
+    <GamePlay
+      players={players}
+      setPlayers={setPlayers}
+    />
+  )
 
 }
 

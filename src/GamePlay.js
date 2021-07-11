@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Header from './Header.js'
-import Board from './Board.js'
 
 function GamePlay({players, setPlayers}) {
 
@@ -30,12 +29,17 @@ function GamePlay({players, setPlayers}) {
     setBoard(copyBoard);
     // TODO: check win conditions here
     if (won(r_ind, c_ind)) {
-      // TODO: reset board, toPlay, player win counts
       setOutcome(toPlay);
+      players[toPlay].wins += 1;
+      players[1 - toPlay].loses += 1;
     } else {
       // TODO: refactor the winning/drawing logic
       setToPlay(1 - toPlay);
-      if (full()) { setOutcome(2) }
+      if (full()) {
+        setOutcome(2);
+        players[toPlay].draws += 1;
+        players[toPlay].draws += 1;
+      }
     }
   }
 
@@ -64,7 +68,13 @@ function GamePlay({players, setPlayers}) {
         {
           players.map((player, index) => {
             return (
-              <button key={index} type="button" onClick={()=>setToPlay(index)}>
+              <button key={index} type="button" onClick={() => {
+                    setToPlay(index);
+                    players[index].piece = 'x';
+                    players[1 - index].piece = 'o';
+                  }
+                }
+              >
                 {player.name}
               </button>
             )
@@ -146,16 +156,6 @@ function GamePlay({players, setPlayers}) {
         </>
       )
   }
-
-  return (
-    <>
-      <Board
-        players={players}
-        board={board}
-        setBoard={setBoard}
-      Board/>
-    </>
-  )
 }
 
 export default GamePlay;
