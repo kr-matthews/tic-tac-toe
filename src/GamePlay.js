@@ -1,10 +1,21 @@
 import { useState } from 'react'
+
 import Header from './Header.js'
 
-function GamePlay({players, setPlayers}) {
+import './css/index.css'
+
+function GamePlay() {
 
   /* constants */
 
+  /* a player consists of: name, colour, type, wins, draws, loses */
+  const [players, setPlayers] = useState(
+    [
+      /* dummy data for testing, initial state should be [] */
+      {name: "Alice", colour: "blue", type: "human", wins: 0, draws: 0, loses: 0},
+      {name: "Bob", colour: "red", type: "human", wins: 0, draws: 0, loses: 0}
+    ]
+  );
   /* board position is i for player i, -1 for empty */
   const [board, setBoard] = useState(
     [[-1, -1, -1],[-1, -1, -1],[-1, -1, -1]]
