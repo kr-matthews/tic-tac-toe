@@ -4,7 +4,7 @@ import Header from './Header.js'
 
 import './css/index.css'
 
-function GamePlay() {
+function App() {
 
   /* constants */
 
@@ -200,4 +200,4 @@ function GamePlay() {
   }
 }
 
-export default GamePlay;
+export default App;
