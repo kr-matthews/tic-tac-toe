@@ -52,6 +52,11 @@ function App() {
         return "Expert Ellie";
     }
   }
+  function isColour(str){
+    let s = new Option().style;
+    s.color = str;
+    return s.color !== '';
+  }
 
   function placePiece(r_ind, c_ind) {
     let copyBoard = [...board];
@@ -91,7 +96,7 @@ function App() {
   /* return */
   // TODO: split up into components once the structure is better understood
 
-  if (players.length === 0) {
+  if (players.length < 2) {
     /* create / select 1st player */
     return (
       <>
@@ -141,44 +146,91 @@ function App() {
                 />
               </label>
               <input
-              type="submit"
-              value="Submit"
-              onClick={(e) => {
-                e.preventDefault();
-                let diff = (
-                  !player.difficulty
-                ) ? (
-                  Math.floor(Math.random() * 3)
-                ) : (
-                  parseInt(player.difficulty, 10)
-                );
-                let newPlayers = [...players];
-                newPlayers.push({
-                  name: computerName(diff),
-                  colour: player.colour,
-                  type: "computer",
-                  difficulty: diff,
-                  wins: 0,
-                  draws: 0,
-                  loses: 0
-                })
-                setPlayers(newPlayers);
-              }}
+                type="submit"
+                value="Submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  let diff = (
+                    !player.difficulty
+                  ) ? (
+                    Math.floor(Math.random() * 3)
+                  ) : (
+                    parseInt(player.difficulty, 10)
+                  );
+                  let newPlayers = [...players];
+                  newPlayers.push({
+                    name: computerName(diff),
+                    colour: player.colour,
+                    type: "computer",
+                    difficulty: diff,
+                    wins: 0,
+                    draws: 0,
+                    loses: 0
+                  })
+                  !isColour(player.colour) && alert("Enter a valid colour.");
+                  isColour(player.colour) && setPlayers(newPlayers);
+                  isColour(player.colour) && setPlayer({});
+                }}
               />
             </form>
           )
         }
+
         {
           player.type === "human" && (
-            <div>Human!</div>
-            // TODO: this next
+            <form>
+              <label htmlFor="name">
+                Name:
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter a display name..."
+                  value={player.name}
+                  onChange={(e) => {
+                    setPlayer({...player, name: e.target.value});
+                  }}
+                />
+              </label>
+              <label htmlFor="colour">
+                Colour:
+                <input
+                  type="text"
+                  id="colour"
+                  name="colour"
+                  placeholder="Pick your piece colour..."
+                  value={player.colour}
+                  onChange={(e) => {
+                    setPlayer({...player, colour: e.target.value.toLowerCase()});
+                  }}
+                />
+              </label>
+              <input
+                type="submit"
+                value="Submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  let newPlayers = [...players];
+                  newPlayers.push({
+                    name: player.name,
+                    colour: player.colour,
+                    type: "human",
+                    wins: 0,
+                    draws: 0,
+                    loses: 0
+                  })
+                  !isColour(player.colour) && alert("Enter a valid colour.");
+                  isColour(player.colour) && setPlayers(newPlayers);
+                  isColour(player.colour) && setPlayer({});
+                }}
+              />
+            </form>
           )
         }
       </>
     )
-  } else if (players.length === 1) {
-    /* create / select 2nd player */
-    return "1 player: " + players[0].name
+    
+
   } else if (toPlay === -1) {
     /* pick who goes first */
     return (
@@ -200,6 +252,8 @@ function App() {
       }
       </>
     )
+
+
   } else {
     /* play a round */
     return (
