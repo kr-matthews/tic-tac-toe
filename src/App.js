@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Header from './Header.js'
 
@@ -12,8 +12,8 @@ function App() {
   const [players, setPlayers] = useState(
     [
       /* dummy data for testing, initial state should be [] */
-      //{name: "Alice", colour: "blue", type: "human", wins: 0, draws: 0, loses: 0},
-      //{name: "Bob", colour: "red", type: "human", wins: 0, draws: 0, loses: 0}
+      //{name: "Alice", colour: "blue", type: "computer", difficulty: 2, wins: 0, draws: 0, loses: 0},
+      //{name: "Bob", colour: "red", type: "computer", difficulty: 0, wins: 0, draws: 0, loses: 0}
     ]
   );
   /* board position is i for player i, -1 for empty */
@@ -23,8 +23,21 @@ function App() {
   const [toPlay, setToPlay] = useState(-1);
   /* 0, 1 for player win, -1 for not yet, 2 for draw */
   const [outcome, setOutcome] = useState(-1);
-  /* for temporary storage when creating player */
+  /* for temporary storage when creating a player */
   const [player, setPlayer] = useState({});
+
+
+  /* effects */
+
+  useEffect(() => {
+    if (toPlay >= 0 && players[toPlay].type === "computer") {
+      // TODO: add proper strategy instead of random
+      let {row, col} = findNextPlay(players[toPlay].difficulty);
+      setTimeout(() => {
+        placePiece(row, col);
+      }, 700 + players[toPlay].difficulty * 350);
+    }
+  }, [toPlay]);
 
 
   /* functions */
@@ -50,6 +63,8 @@ function App() {
         return "Seasoned Sam";
       case 2:
         return "Expert Ellie";
+      default:
+        return "Error Erik";
     }
   }
   function isColour(str){
@@ -64,15 +79,18 @@ function App() {
     setBoard(copyBoard);
     if (won(r_ind, c_ind)) {
       setOutcome(toPlay);
-      players[toPlay].wins += 1;
-      players[1 - toPlay].loses += 1;
+      let newPlayers = [...players];
+      newPlayers[toPlay].wins += 1;
+      newPlayers[1 - toPlay].loses += 1;
+      setPlayers(newPlayers);
+    } else if (full()) {
+      setOutcome(2);
+      let newPlayers = [...players];
+      newPlayers[toPlay].draws += 1;
+      newPlayers[1 - toPlay].draws += 1;
+      setPlayers(newPlayers);
     } else {
       setToPlay(1 - toPlay);
-      if (full()) {
-        setOutcome(2);
-        players[toPlay].draws += 1;
-        players[1 - toPlay].draws += 1;
-      }
     }
   }
 
@@ -93,14 +111,29 @@ function App() {
   }
 
 
+  /* computer player strategies */
+  function findNextPlay(diff) {
+    var row = 1;
+    var col = 1;
+    while (board[row][col] !== -1) {
+      row = Math.floor(Math.random() * 3);
+      col = Math.floor(Math.random() * 3);
+    }
+    return {row, col}
+  }
+
+
   /* return */
   // TODO: split up into components once the structure is better understood
 
   if (players.length < 2) {
-    /* create / select 1st player */
+    /* create/select a player */
     return (
       <>
-        <div>First Player:</div>
+        {players.length === 0 ?
+          <div>First Player:</div> :
+          <div>Second Player:</div>
+        }
         <button type="button" onClick={() => {
             setPlayer({type: "human"})
           }}
@@ -133,7 +166,7 @@ function App() {
                 </select>
               </label>
               <label htmlFor="colour">
-                Colour: (todo: select colour "randomly" for computer)
+                Colour:
                 <input
                   type="text"
                   id="colour"
@@ -225,16 +258,19 @@ function App() {
                 }}
               />
             </form>
-          )
+          )/* TODO: on submit of second player, select colour for comps at end */
         }
       </>
     )
-    
+
 
   } else if (toPlay === -1) {
     /* pick who goes first */
     return (
       <>
+      <Header
+      players={players}
+      Header/>
       <div>Select who will go first:</div>
       {
         players.map((player, index) => {
@@ -255,10 +291,9 @@ function App() {
 
 
   } else {
-    /* play a round */
+    /* show board, with buttons for humans as applicable */
     return (
       <>
-      <div>WIP</div>
       <Header
       players={players}
       Header/>
@@ -271,20 +306,20 @@ function App() {
                 return (
                   square !== -1 ? (
                     /* piece already placed here */
-                    <span key={c_ind}> '{players[square].piece}' </span>
+                    <span key={c_ind}> .{players[square].piece}. </span>
                   ) : (
-                    outcome === -1 ? (
+                    (outcome === -1 && players[toPlay].type === "human") ? (
                       /* no piece, is valid move */
                       <button
-                      key={c_ind}
-                      type="button"
-                      onClick={() => placePiece(r_ind, c_ind)}
+                        key={c_ind}
+                        type="button"
+                        onClick={() => placePiece(r_ind, c_ind)}
                       >
-                      "
+                      ..
                       </button>
                     ) : (
                       /* no piece, somebody already won */
-                      <span key={c_ind}>'-'</span>
+                      <span key={c_ind}> .... </span>
                     )
                   )
                 )
@@ -294,7 +329,7 @@ function App() {
           )
         })
       }
-      { /* who goes next */
+      { /* who goes next */ /* this and below is common to the computer case */
         outcome === -1 && (
           <div>Next to play: {players[toPlay].name}</div>
         )
@@ -313,14 +348,14 @@ function App() {
         outcome !== -1 && (
           <>
           <button
-          type="button"
-          onClick={resetBoard}
+            type="button"
+            onClick={resetBoard}
           >
           Play Again
           </button>
           <button
-          type="button"
-          onClick={resetPlayers}
+            type="button"
+            onClick={resetPlayers}
           >
           New Players
           </button>

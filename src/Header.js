@@ -10,7 +10,8 @@ function Header({ players, toPlay }) {
         <span>{p0.piece} - </span>
         <span>{p0.name} - </span>
         <span>{p0.wins} win(s) || </span>
-        <span>{p1.wins} win(s) - </span>
+        <span>{p0.draws} draw(s)</span>
+        <span> || {p1.wins} win(s) - </span>
         <span>{p1.name} - </span>
         <span>{p1.piece}</span>
       </header>
