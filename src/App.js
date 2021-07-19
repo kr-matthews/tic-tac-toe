@@ -38,6 +38,19 @@ function App() {
       }, 700 + players[toPlay].difficulty * 350);
     }
   }, [toPlay]);
+  useEffect(() => {
+    if (players.length === 2 && players[0].colour === players[1].colour) {
+      if (players[1].type === "computer") {
+        let newPlayers = [...players];
+        newPlayers[1].colour = computerColour(-1);
+        setPlayers(newPlayers);
+      } else if (players[0].type === "computer") {
+        let newPlayers = [...players];
+        newPlayers[0].colour = computerColour(-1);
+        setPlayers(newPlayers);
+      }
+    }
+  }, [players.length])
 
 
   /* functions */
@@ -56,7 +69,7 @@ function App() {
     setToPlay(-1);
   }
   function computerName(diff) {
-    switch(diff) {
+    switch (diff) {
       case 0:
         return "Rookie Ron";
       case 1:
@@ -65,6 +78,18 @@ function App() {
         return "Expert Ellie";
       default:
         return "Error Erik";
+    }
+  }
+  function computerColour(diff) {
+    switch (diff) {
+      case 0:
+        return "green";
+      case 1:
+        return "yellow";
+      case 2:
+        return "red";
+      default:
+        return "purple";
     }
   }
   function isColour(str){
@@ -165,19 +190,6 @@ function App() {
                   <option value="2">Hard</option>
                 </select>
               </label>
-              <label htmlFor="colour">
-                Colour:
-                <input
-                  type="text"
-                  id="colour"
-                  name="colour"
-                  placeholder="Enter colour name or code..."
-                  value={player.colour}
-                  onChange={(e) => {
-                    setPlayer({...player, colour: e.target.value.toLowerCase()});
-                  }}
-                />
-              </label>
               <input
                 type="submit"
                 value="Submit"
@@ -193,16 +205,15 @@ function App() {
                   let newPlayers = [...players];
                   newPlayers.push({
                     name: computerName(diff),
-                    colour: player.colour,
                     type: "computer",
                     difficulty: diff,
+                    colour: computerColour(diff),
                     wins: 0,
                     draws: 0,
                     loses: 0
                   })
-                  !isColour(player.colour) && alert("Enter a valid colour.");
-                  isColour(player.colour) && setPlayers(newPlayers);
-                  isColour(player.colour) && setPlayer({});
+                  setPlayers(newPlayers);
+                  setPlayer({});
                 }}
               />
             </form>
@@ -258,7 +269,7 @@ function App() {
                 }}
               />
             </form>
-          )/* TODO: on submit of second player, select colour for comps at end */
+          )
         }
       </>
     )
