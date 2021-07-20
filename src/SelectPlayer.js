@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { computerName } from 'react';
+import { computerName } from './computerPlayers.js';
 
 function isColour(str){
   let s = new Option().style;

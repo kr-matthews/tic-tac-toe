@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 
 import Header from './Header.js'
-import PlayerSelection from './PlayerSelection.js'
+import SelectPlayer from './SelectPlayer.js'
+import SelectGoFirst from './SelectGoFirst.js'
 
 import { computerColour, findNextPlay } from './computerPlayers.js'
 
@@ -116,40 +117,24 @@ function App() {
   if (players.length < 2) {
     /* create/select a player */
     return (
-      <PlayerSelection
+      <SelectPlayer
         players={players}
         setPlayers={setPlayers}
         computerColour={computerColour}
       />
     )
-
-
   } else if (toPlay === -1) {
     /* pick who goes first */
     return (
       <>
-      <Header
-      players={players}
-      Header/>
-      <div>Select who will go first:</div>
-      {
-        players.map((player, index) => {
-          return (
-            <button key={index} type="button" onClick={() => {
-                setToPlay(index);
-                players[index].piece = 'x';
-                players[1 - index].piece = 'o';
-              }}
-            >
-            {player.name}
-            </button>
-          )
-        })
-      }
+        <Header players={players} />
+        <SelectGoFirst
+          players={players}
+          setPlayers={setPlayers}
+          setToPlay={setToPlay}
+        />
       </>
     )
-
-
   } else {
     /* show board, with buttons for humans as applicable */
     return (
