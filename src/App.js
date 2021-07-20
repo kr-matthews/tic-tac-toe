@@ -4,6 +4,8 @@ import Header from './Header.js'
 import SelectPlayer from './SelectPlayer.js'
 import SelectGoFirst from './SelectGoFirst.js'
 import Board from './Board.js'
+import GameMessage from './GameMessage.js'
+import SelectRestart from './SelectRestart.js'
 
 import { computerColour, findNextPlay } from './computerPlayers.js'
 
@@ -14,13 +16,7 @@ function App() {
   /* constants */
 
   /* a player consists of: name, colour, type, wins, draws, loses */
-  const [players, setPlayers] = useState(
-    [
-      /* dummy data for testing, initial state should be [] */
-      //{name: "Alice", colour: "blue", type: "computer", difficulty: 2, wins: 0, draws: 0, loses: 0},
-      //{name: "Bob", colour: "red", type: "computer", difficulty: 0, wins: 0, draws: 0, loses: 0}
-    ]
-  );
+  const [players, setPlayers] = useState([]);
   /* board position is i for player i, -1 for empty */
   const initBoard = [[-1, -1, -1],[-1, -1, -1],[-1, -1, -1]];
   const [board, setBoard] = useState(initBoard);
@@ -111,7 +107,6 @@ function App() {
   /* return */
 
   if (players.length < 2) {
-    /* create/select a player */
     return (
       <SelectPlayer
         players={players}
@@ -132,50 +127,26 @@ function App() {
       </>
     )
   } else {
-    /* show board, with buttons for humans as applicable */
     return (
       <>
-      <Header players={players} />
-      <Board
-        board={board}
-        players={players}
-        toPlay={toPlay}
-        outcome={outcome}
-        placePiece={placePiece}
-      />
-      { /* who goes next */ /* this and below is common to the computer case */
-        outcome === -1 && (
-          <div>Next to play: {players[toPlay].name}</div>
-        )
-      }
-      { /* display winner */
-        (outcome === 0 || outcome === 1) && (
-          <h2>{players[outcome].name} wins!</h2>
-        )
-      }
-      { /* display draw */
-        outcome === 2 && (
-          <h2>It's a draw.</h2>
-        )
-      }
-      { /* show restart options */
-        outcome !== -1 && (
-          <>
-          <button
-            type="button"
-            onClick={resetBoard}
-          >
-          Play Again
-          </button>
-          <button
-            type="button"
-            onClick={reset}
-          >
-          New Players
-          </button>
-          </>
-        )
-      }
+        <Header players={players} />
+        <Board
+          board={board}
+          players={players}
+          toPlay={toPlay}
+          outcome={outcome}
+          placePiece={placePiece}
+        />
+        <GameMessage
+          players={players}
+          toPlay={toPlay}
+          outcome={outcome}
+        />
+        <SelectRestart
+          outcome={outcome}
+          reset={reset}
+          resetBoard={resetBoard}
+        />
       </>
     )
   }
