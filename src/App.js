@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Header from './Header.js'
 import SelectPlayer from './SelectPlayer.js'
 import SelectGoFirst from './SelectGoFirst.js'
+import Board from './Board.js'
 
 import { computerColour, findNextPlay } from './computerPlayers.js'
 
@@ -21,9 +22,8 @@ function App() {
     ]
   );
   /* board position is i for player i, -1 for empty */
-  const [board, setBoard] = useState(
-    [[-1, -1, -1],[-1, -1, -1],[-1, -1, -1]]
-  );
+  const initBoard = [[-1, -1, -1],[-1, -1, -1],[-1, -1, -1]];
+  const [board, setBoard] = useState(initBoard);
   const [toPlay, setToPlay] = useState(-1);
   /* 0, 1 for player win, -1 for not yet, 2 for draw */
   const [outcome, setOutcome] = useState(-1);
@@ -58,25 +58,10 @@ function App() {
 
 
   /* functions */
-
-  /* reset states */
-  function resetPlayers() {
-    /* also reset the board for when we come back later */
-    resetBoard();
-    setPlayers([]);
-  }
-  function resetBoard() {
-    /* not just the board, but also the outcome and who goes first */
-    let newBoard = [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]];
-    setBoard(newBoard);
-    setOutcome(-1);
-    setToPlay(-1);
-  }
-
   function placePiece(r_ind, c_ind) {
-    let copyBoard = [...board];
-    copyBoard[r_ind][c_ind] = toPlay;
-    setBoard(copyBoard);
+    let newBoard = [...board];
+    newBoard[r_ind][c_ind] = toPlay;
+    setBoard(newBoard);
     if (won(r_ind, c_ind)) {
       setOutcome(toPlay);
       let newPlayers = [...players];
@@ -93,7 +78,6 @@ function App() {
       setToPlay(1 - toPlay);
     }
   }
-
   /* check properties of the board */
   function full() {
     return !([...board[0], ...board[1], ...board[2]]).includes(-1)
@@ -110,9 +94,21 @@ function App() {
     return (new Set(arr)).size === 1
   }
 
+  /* reset states */
+  function reset() {
+    resetBoard();
+    setPlayers([]);
+  }
+  function resetBoard() {
+    /* not just the board, but also the outcome and who goes first */
+    setBoard(initBoard);
+    setOutcome(-1);
+    setToPlay(-1);
+  }
+
+
 
   /* return */
-  // TODO: split up into components once the structure is better understood
 
   if (players.length < 2) {
     /* create/select a player */
@@ -139,41 +135,14 @@ function App() {
     /* show board, with buttons for humans as applicable */
     return (
       <>
-      <Header
-      players={players}
-      Header/>
-      { /* the board */
-        board.map((row, r_ind) => {
-          return (
-            <div key={r_ind}>
-            {
-              row.map((square, c_ind) => {
-                return (
-                  square !== -1 ? (
-                    /* piece already placed here */
-                    <span key={c_ind}> .{players[square].piece}. </span>
-                  ) : (
-                    (outcome === -1 && players[toPlay].type === "human") ? (
-                      /* no piece, is valid move */
-                      <button
-                        key={c_ind}
-                        type="button"
-                        onClick={() => placePiece(r_ind, c_ind)}
-                      >
-                      ..
-                      </button>
-                    ) : (
-                      /* no piece, somebody already won */
-                      <span key={c_ind}> .... </span>
-                    )
-                  )
-                )
-              })
-            }
-            </div>
-          )
-        })
-      }
+      <Header players={players} />
+      <Board
+        board={board}
+        players={players}
+        toPlay={toPlay}
+        outcome={outcome}
+        placePiece={placePiece}
+      />
       { /* who goes next */ /* this and below is common to the computer case */
         outcome === -1 && (
           <div>Next to play: {players[toPlay].name}</div>
@@ -200,7 +169,7 @@ function App() {
           </button>
           <button
             type="button"
-            onClick={resetPlayers}
+            onClick={reset}
           >
           New Players
           </button>
