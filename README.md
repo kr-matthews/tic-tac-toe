@@ -1,14 +1,13 @@
 # Tic Tac Toe
 
-This is a simple SPA toy project to create a playable game with React (and reasonable CSS styling).
+This is a simple single-page-application toy project to create a playable game with React (and CSS styling).
 
 ### Play
 
 [https://kr-matthews.github.io/tic-tac-toe/](https://kr-matthews.github.io/tic-tac-toe/)
 
-### Game-play (intentions -- project is incomplete)
+### Game-play
 
-You can have two players play against each other (on the same screen), or opt to play against the computer.
-There are several computer players to choose from.
+There are two players playing against each other on a common interface (screen). Each player can be human-controlled or one of several built-in computer players.
 
 Wins-ties-loses are tracked (until the page is refreshed or exited).
