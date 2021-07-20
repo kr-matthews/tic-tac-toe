@@ -111,7 +111,6 @@ function App() {
       <SelectPlayer
         players={players}
         setPlayers={setPlayers}
-        computerColour={computerColour}
       />
     )
   } else if (toPlay === -1) {
