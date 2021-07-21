@@ -1,7 +1,4 @@
-
-
 function Header({ players, toPlay }) {
-
   const [p0, p1] = players;
 
   return (
@@ -20,7 +17,7 @@ function Header({ players, toPlay }) {
         <span>{p1.difficulty}</span>
       </header>
     </>
-  )
+  );
 }
 
 export default Header;

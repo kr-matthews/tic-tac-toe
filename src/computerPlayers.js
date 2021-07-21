@@ -1,5 +1,3 @@
-
-
 // names of computer players
 function computerName(diff) {
   switch (diff) {
@@ -36,7 +34,7 @@ function findNextPlay(diff, board) {
     row = Math.floor(Math.random() * 3);
     col = Math.floor(Math.random() * 3);
   }
-  return {row, col}
+  return { row, col };
 }
 
 export { computerName, computerColour, findNextPlay };
