@@ -3,7 +3,7 @@
 function SelectGoFirst({players, setPlayers, setToPlay}) {
   return (
     <>
-      <div>Select who will go first:</div>
+      <div>Select which player will go first.</div>
       {
         players.map((player, index) => {
           return (

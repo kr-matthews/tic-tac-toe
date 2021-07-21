@@ -8,7 +8,7 @@ function isColour(str) {
   return s.color !== '';
 }
 function numericAdjective(num) {
-  if (num < 6) {
+  if (num < 13) {
     return (
       ["First", "Second", "Third", "Fourth", "Fifth", "Sixth",
        "Seventh", "Eight", "Ninth", "Tenth", "Eleventh",
