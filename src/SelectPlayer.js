@@ -24,6 +24,13 @@ function numericAdjective(num) {
     return num + "th"
   }
 }
+function getDifficulty(diff) {
+  if (diff) {
+    return parseInt(diff, 10)
+  } else {
+    return Math.floor(Math.random() * 3)
+  }
+}
 
 
 function PlayerSelection({players, setPlayers}) {
@@ -83,18 +90,24 @@ function SelectHuman({players, setPlayers}) {
         value="Submit"
         onClick={(e) => {
           e.preventDefault();
-          let newPlayers = [...players];
-          newPlayers.push({
-            name: player.name,
-            colour: player.colour,
-            type: "human",
-            wins: 0,
-            draws: 0,
-            loses: 0
-          })
-          !isColour(player.colour) && alert("Enter a valid colour.");
-          isColour(player.colour) && setPlayers(newPlayers);
-          isColour(player.colour) && setPlayer({});
+          if (isColour(player.colour)) {
+            setPlayers(
+              [
+                ...players,
+                {
+                  name: player.name,
+                  colour: player.colour,
+                  type: "human",
+                  wins: 0,
+                  draws: 0,
+                  loses: 0
+                }
+              ]
+            );
+            setPlayer({...player, name: "", colour: ""});
+          } else {
+            alert("Enter a valid colour.");
+          }
         }}
       />
     </form>
@@ -129,25 +142,22 @@ function SelectComputer({players, setPlayers}) {
         value="Submit"
         onClick={(e) => {
           e.preventDefault();
-          let diff = (
-            !player.difficulty
-          ) ? (
-            Math.floor(Math.random() * 3)
-          ) : (
-            parseInt(player.difficulty, 10)
+          let diff = getDifficulty(player.difficulty);
+          setPlayers(
+            [
+              ...players,
+              {
+                name: computerName(diff),
+                type: "computer",
+                difficulty: diff,
+                colour: computerColour(diff),
+                wins: 0,
+                draws: 0,
+                loses: 0
+              }
+            ]
           );
-          let newPlayers = [...players];
-          newPlayers.push({
-            name: computerName(diff),
-            type: "computer",
-            difficulty: diff,
-            colour: computerColour(diff),
-            wins: 0,
-            draws: 0,
-            loses: 0
-          })
-          setPlayers(newPlayers);
-          setPlayer({});
+          setPlayer({...player, difficulty: ""});
         }}
       />
     </form>
