@@ -131,11 +131,13 @@ function App() {
           placePiece={placePiece}
         />
         <GameMessage players={players} toPlay={toPlay} outcome={outcome} />
-        <SelectRestart
-          outcome={outcome}
-          reset={reset}
-          resetBoard={resetBoard}
-        />
+        {outcome !== -1 && (
+          <SelectRestart
+            outcome={outcome}
+            reset={reset}
+            resetBoard={resetBoard}
+          />
+        )}
       </>
     );
   }
