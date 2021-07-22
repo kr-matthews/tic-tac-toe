@@ -112,6 +112,13 @@ function App() {
     return (
       <>
         <Header players={players} />
+        <Board
+          board={board}
+          players={players}
+          toPlay={toPlay}
+          outcome={outcome}
+          placePiece={placePiece}
+        />
         <SelectGoFirst
           players={players}
           setPlayers={setPlayers}

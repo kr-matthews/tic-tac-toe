@@ -10,8 +10,12 @@ function BoardSquare({
   if (square !== -1) {
     /* piece already placed here */
     return <span> .{players[square].piece}. </span>;
-  } else if (outcome === -1 && players[toPlay].type === "human") {
-    /* no piece, is valid move */
+  } else if (
+    outcome === -1 &&
+    toPlay >= 0 &&
+    players[toPlay].type === "human"
+  ) {
+    /* no piece here, first player has been selected, square is valid move */
     return (
       <button
         key={c_ind}
@@ -22,7 +26,7 @@ function BoardSquare({
       </button>
     );
   } else {
-    /* no piece, somebody already won or is computer turn */
+    /* no piece here, game not started, or won, or computer to play */
     return <span key={c_ind}> .... </span>;
   }
 }
