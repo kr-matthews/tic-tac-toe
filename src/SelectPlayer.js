@@ -57,7 +57,7 @@ function PlayerSelection({ players, setPlayers }) {
 
 function SelectHuman({ players, setPlayers }) {
   /* for temporary storage when creating a player */
-  const [player, setPlayer] = useState({});
+  const [player, setPlayer] = useState({ name: "", colour: "" });
 
   return (
     <form>
@@ -116,7 +116,7 @@ function SelectHuman({ players, setPlayers }) {
 
 function SelectComputer({ players, setPlayers }) {
   /* for temporary storage when creating a player */
-  const [player, setPlayer] = useState({});
+  const [player, setPlayer] = useState({ difficulty: "" });
 
   return (
     <form>
