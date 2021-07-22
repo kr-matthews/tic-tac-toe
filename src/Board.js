@@ -22,7 +22,7 @@ function BoardSquare({
       </button>
     );
   } else {
-    /* no piece, somebody already won */
+    /* no piece, somebody already won or is computer turn */
     return <span key={c_ind}> .... </span>;
   }
 }
