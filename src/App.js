@@ -9,7 +9,7 @@ import SelectRestart from "./SelectRestart.js";
 
 import { computerColour, findNextPlay } from "./computerPlayers.js";
 
-import "./css/index.css";
+import "./index.css";
 
 function App() {
   /* constants */
