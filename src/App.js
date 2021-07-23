@@ -33,7 +33,11 @@ function App() {
     // if computer's turn, do it's move
     if (toPlay >= 0 && players[toPlay].type === "computer") {
       // TODO: add proper strategy instead of random
-      let { row, col } = findNextPlay(players[toPlay].difficulty, board);
+      let { row, col } = findNextPlay(
+        players[toPlay].difficulty,
+        board,
+        toPlay
+      );
       setTimeout(() => {
         placePiece(row, col);
       }, 700 + players[toPlay].difficulty * 350);
@@ -80,6 +84,7 @@ function App() {
     return ![...board[0], ...board[1], ...board[2]].includes(-1);
   }
   function won(r, c) {
+    //todo: redo with "lines"
     return (
       all_eq([toPlay, board[0][c], board[1][c], board[2][c]]) ||
       all_eq([toPlay, board[r][0], board[r][1], board[r][2]]) ||
