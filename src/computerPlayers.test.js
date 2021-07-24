@@ -64,3 +64,9 @@ it("checks whether other play has winning move", () => {
     [2, 2],
   ]);
 });
+
+const board2 = [
+  [1, 1, 0],
+  [0, -1, -1],
+  [1, 0, 0],
+];

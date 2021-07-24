@@ -138,12 +138,24 @@ function randomPlayWithPreference(board, row, col) {
 
 function randomPlay(board) {
   return randomPlayWithPreference(
+    board,
     Math.floor(Math.random() * 3),
     Math.floor(Math.random() * 3)
   );
 }
 
-function probabilityOfNoticing(diff) {
+// TODO: these 3 functions
+function diagStart(board) {
+  return false;
+}
+function findBestCorner(board, toPlay) {
+  return false;
+}
+function findBestEdge(board, toPlay) {
+  return false;
+}
+
+function probabilityOfOptimalPlay(diff) {
   switch (diff) {
     case 0:
       return 0.55;
@@ -151,17 +163,44 @@ function probabilityOfNoticing(diff) {
       return 0.8;
     case 2:
       return 0.97;
+    default:
+      return 1;
   }
 }
 function findNextPlay(diff, board, toPlay) {
+  // true conditions can be cancelled by probabilistic factor
   let winLine = canWin(board, toPlay);
   let loseLine = canLose(board, toPlay);
-  if (winLine && probabilityOfNoticing(diff) > Math.random()) {
+  let bestCorner = findBestCorner(board, toPlay);
+  let bestEdge = findBestEdge(board, toPlay);
+
+  if (winLine && probabilityOfOptimalPlay(diff) > Math.random()) {
+    // if can win, do it
     return emptyInLine(board, winLine);
-  } else if (loseLine && probabilityOfNoticing(diff) > Math.random()) {
+  } else if (loseLine && probabilityOfOptimalPlay(diff) > Math.random()) {
+    // if about to lose, block it
     return emptyInLine(board, loseLine);
+  } else if (
+    // if the center is open, take it
+    board[1][1] === -1 &&
+    probabilityOfOptimalPlay(diff) > Math.random()
+  ) {
+    return { row: 1, col: 1 };
+  } else if (
+    diagStart(board) &&
+    probabilityOfOptimalPlay(diff) > Math.random()
+  ) {
+    // special case where prioritizing corner over edges is bad
+    return bestEdge;
+  } else if (bestCorner && probabilityOfOptimalPlay(diff) > Math.random()) {
+    // play in a corner which can setup a win
+    return bestCorner;
+  } else if (bestEdge && probabilityOfOptimalPlay(diff) > Math.random()) {
+    // play in an edge which can setup a win
+    return bestEdge;
   } else {
-    return randomPlayWithPreference(board, 1, 1);
+    // randomly sample squares until an open one is found
+    return randomPlay(board);
   }
 }
 
