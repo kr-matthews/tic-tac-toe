@@ -107,7 +107,7 @@ const lines = [
 // lines.push(diag1);
 // lines.push(diag2);
 
-// all possible places to play
+// all possible places to play, list by rows
 const allSquares = [
   [0, 0],
   [0, 1],
@@ -186,16 +186,19 @@ function isValidPlay(square, board) {
   let [row, col] = square;
   return board[row][col] === -1;
 }
-// passed to filter, removes it if it's equivalent to another play
-function removeIsomorphicSquares(board, square1, ind1, squares) {
+// passed to filter, return false iff there is an earlier square in squares
+//  which is equivalent
+function isNotDuplicate(board, square1, ind1, squares) {
   // check whether any square is before it and is isomorphic
-  return squares.some((square2, ind2) => {
+  return squares.every((square2, ind2) => {
     if (ind2 >= ind1) {
       // square2 is (equal to or) after square
-      return false;
+      return true;
     } else {
-      return [1, 2, 3].some((rotation) => {
-        return (
+      // currently only checks for rotational symmetry
+      // TODO: check for reflective symmetry
+      return [1, 2, 3].every((rotation) => {
+        return !(
           doSquaresRotate(square1, square2, rotation) &&
           doesBoardRotate(board, rotation)
         );
@@ -217,7 +220,11 @@ function doSquaresRotate(sq1, sq2, rotation) {
 }
 // does board look same after rotation rotations
 function doesBoardRotate(board, rotation) {
-  return false;
+  return allSquares.every((square) => {
+    let [row1, col1] = square;
+    let [row2, col2] = rotateSquare(square, rotation);
+    return board[row1][col1] === board[row2][col2];
+  });
 }
 function scorePlay(square, board, toPlay) {
   var score = 0;
@@ -274,7 +281,7 @@ function findNextPlay(diff, board, toPlay) {
   let orderedPlays = _.shuffle(allSquares.slice())
     .filter((square) => isValidPlay(square, board))
     .filter((square, index, squares) =>
-      removeIsomorphicSquares(board, square, index, squares)
+      isNotDuplicate(board, square, index, squares)
     )
     .map((square) => {
       let [row, col] = square;
@@ -304,4 +311,6 @@ export {
   arrIncludes,
   rotateSquare,
   doSquaresRotate,
+  doesBoardRotate,
+  isNotDuplicate,
 };

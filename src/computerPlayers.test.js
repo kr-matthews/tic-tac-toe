@@ -7,6 +7,8 @@ import {
   arrIncludes,
   rotateSquare,
   doSquaresRotate,
+  doesBoardRotate,
+  isNotDuplicate,
 } from "./computerPlayers.js";
 
 const board = [
@@ -88,4 +90,27 @@ it("checking if rotating square matches", () => {
   expect(doSquaresRotate([1, 2], [1, 0], 2)).toEqual(true);
 });
 
-it("rotating board", () => {});
+const board3 = [
+  [-1, -1, 0],
+  [-1, 1, -1],
+  [0, -1, -1],
+];
+
+it("rotating board", () => {
+  expect(doesBoardRotate(board, 0)).toEqual(true);
+  expect(doesBoardRotate(board, 1)).toEqual(false);
+  expect(doesBoardRotate(board, 4)).toEqual(true);
+  expect(doesBoardRotate(board2, 0)).toEqual(true);
+  expect(doesBoardRotate(board2, 1)).toEqual(false);
+  expect(doesBoardRotate(board2, 4)).toEqual(true);
+  expect(doesBoardRotate(board3, 0)).toEqual(true);
+  expect(doesBoardRotate(board3, 1)).toEqual(false);
+  expect(doesBoardRotate(board3, 2)).toEqual(true);
+});
+
+it("checking uniqueness filter", () => {
+  expect(isNotDuplicate(board3, [0, 0], 0, allSquares)).toEqual(true);
+  expect(isNotDuplicate(board3, [2, 2], 8, allSquares)).toEqual(false);
+  expect(isNotDuplicate(board3, [1, 0], 4, allSquares)).toEqual(true);
+  expect(isNotDuplicate(board3, [1, 2], 6, allSquares)).toEqual(false);
+});
