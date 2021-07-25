@@ -32,7 +32,6 @@ function App() {
   useEffect(() => {
     // if computer's turn, do it's move
     if (toPlay >= 0 && players[toPlay].type === "computer") {
-      // TODO: add proper strategy instead of random
       let { row, col } = findNextPlay(
         players[toPlay].difficulty,
         board,
