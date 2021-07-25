@@ -22,7 +22,7 @@ function BoardSquare({
         type="button"
         onClick={() => placePiece(r_ind, c_ind)}
       >
-        ..
+        .
       </button>
     );
   } else {

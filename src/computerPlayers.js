@@ -120,6 +120,25 @@ const allSquares = [
   [2, 2],
 ];
 
+// special cases for computer strategy
+function specialBoard1(toPlay) {
+  return [
+    [toPlay, -1, -1],
+    [-1, 1 - toPlay, -1],
+    [-1, -1, -1],
+  ];
+}
+const specialSquare1 = [2, 2];
+function specialBoard2(toPlay) {
+  return [
+    [1 - toPlay, -1, -1],
+    [-1, toPlay, -1],
+    [-1, -1, 1 - toPlay],
+  ];
+}
+const specialSquare2a = [0, 2];
+const specialSquare2b = [2, 0];
+
 // no-longer-needed helper functions
 
 function arrEq(arr1, arr2) {
@@ -197,12 +216,20 @@ function isNotDuplicate(board, square1, ind1, squares) {
     } else {
       // currently only checks for rotational symmetry
       // TODO: check for reflective symmetry
-      return [1, 2, 3].every((rotation) => {
-        return !(
-          doSquaresRotate(square1, square2, rotation) &&
-          doesBoardRotate(board, rotation)
-        );
-      });
+      return (
+        [1, 2, 3].every((rotation) => {
+          return !(
+            doSquaresRotate(square1, square2, rotation) &&
+            doBoardsRotate(board, board, rotation)
+          );
+        }) &&
+        [1, 2, 3, 4].every((reflection) => {
+          return !(
+            doSquaresReflect(square1, square2, reflection) &&
+            doBoardsReflect(board, board, reflection)
+          );
+        })
+      );
     }
   });
 }
@@ -218,15 +245,79 @@ function rotateSquare(square, rotation) {
 function doSquaresRotate(sq1, sq2, rotation) {
   return arrEq(rotateSquare(sq1, rotation), sq2);
 }
-// does board look same after rotation rotations
-function doesBoardRotate(board, rotation) {
+// does board1 look like board2 after rotation rotations
+function doBoardsRotate(board1, board2, rotation) {
   return allSquares.every((square) => {
     let [row1, col1] = square;
     let [row2, col2] = rotateSquare(square, rotation);
-    return board[row1][col1] === board[row2][col2];
+    return board1[row1][col1] === board2[row2][col2];
   });
 }
+
+// reflect square using arbitrary indexing of reflections
+function reflectSquare(square, reflection) {
+  let [row, col] = square;
+  switch (reflection) {
+    case 1: // diag1: \
+      return [col, row];
+    case 2: // diag2: /
+      return [2 - col, 2 - row];
+    case 3: // hori: --
+      return [2 - row, col];
+    case 4: // vert: |
+      return [row, 2 - col];
+    default:
+      return "Error";
+  }
+}
+// does sq1 reflect to sq2 via reflection given
+function doSquaresReflect(sq1, sq2, reflection) {
+  return arrEq(reflectSquare(sq1, reflection), sq2);
+}
+// does board1 look like board2 after given reflection
+function doBoardsReflect(board1, board2, reflection) {
+  return allSquares.every((square) => {
+    let [row1, col1] = square;
+    let [row2, col2] = reflectSquare(square, reflection);
+    return board1[row1][col1] === board2[row2][col2];
+  });
+}
+
+// special cases
+
+function isSpecialCase(board, toPlay, square, specialBoard, specialSquare) {
+  return (
+    [1, 2, 3].some((rotation) => {
+      return (
+        doSquaresRotate(square, specialSquare, rotation) &&
+        doBoardsRotate(board, specialBoard, rotation)
+      );
+    }) ||
+    [1, 2, 3, 4].some((reflection) => {
+      return (
+        doSquaresReflect(square, specialSquare, reflection) &&
+        doBoardsReflect(board, specialBoard, reflection)
+      );
+    })
+  );
+}
+
 function scorePlay(square, board, toPlay) {
+  if (
+    isSpecialCase(board, toPlay, square, specialBoard1(toPlay), specialSquare1)
+  ) {
+    return 500;
+  }
+  if (
+    isSpecialCase(board, toPlay, square, specialBoard2(toPlay), specialSquare2a)
+  ) {
+    return -500;
+  }
+  if (
+    isSpecialCase(board, toPlay, square, specialBoard2(toPlay), specialSquare2b)
+  ) {
+    return -500;
+  }
   var score = 0;
   lines
     .slice()
@@ -311,6 +402,6 @@ export {
   arrIncludes,
   rotateSquare,
   doSquaresRotate,
-  doesBoardRotate,
+  doBoardsRotate,
   isNotDuplicate,
 };
