@@ -144,15 +144,40 @@ function randomPlay(board) {
   );
 }
 
-// TODO: these 3 functions
+const edges = [
+  [0, 1],
+  [1, 2],
+  [2, 1],
+  [1, 0],
+];
+const corners = [
+  [0, 0],
+  [0, 2],
+  [2, 2],
+  [2, 0],
+];
+
 function diagStart(board) {
+  // TODO:
   return false;
 }
 function findBestCorner(board, toPlay) {
-  return false;
+  var bestCorner = false;
+  var bestScore = -999;
+  corners.forEach((corner) => {
+    var score = 0;
+    lines.forEach((line) => (score += score(corner, line, toPlay)));
+  });
+  return bestCorner;
 }
 function findBestEdge(board, toPlay) {
+  // TODO:
   return false;
+}
+function score(square, line, toPlay) {
+  const [row, col] = square;
+  // TODO:
+  return 0;
 }
 
 function probabilityOfOptimalPlay(diff) {
@@ -168,7 +193,9 @@ function probabilityOfOptimalPlay(diff) {
   }
 }
 function findNextPlay(diff, board, toPlay) {
-  // true conditions can be cancelled by probabilistic factor
+  // all computer players play the same strategy; a list of conditionals
+  // each conditional is weighted by a probability (and this is the
+  //   only part which depends on the player)
   let winLine = canWin(board, toPlay);
   let loseLine = canLose(board, toPlay);
   let bestCorner = findBestCorner(board, toPlay);
@@ -181,10 +208,10 @@ function findNextPlay(diff, board, toPlay) {
     // if about to lose, block it
     return emptyInLine(board, loseLine);
   } else if (
-    // if the center is open, take it
     board[1][1] === -1 &&
     probabilityOfOptimalPlay(diff) > Math.random()
   ) {
+    // if the center is open, take it
     return { row: 1, col: 1 };
   } else if (
     diagStart(board) &&
