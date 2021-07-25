@@ -219,10 +219,20 @@ function scorePlayRelativeToLine(square, board, line, toPlay) {
   }
   return "Error";
 }
+function sortScoredSquares(a, b) {
+  if (b.score !== a.score) {
+    return b.score - a.score;
+  } else {
+    // randomize order of squares with a common score
+    return Math.random() > 0.5 ? 1 : -1;
+  }
+}
 
 // primary function
 
 function findNextPlay(diff, board, toPlay) {
+  // PROBLEM: on first move, first 4 options are corners, so they are virtually always selected, even for rookie ron
+
   // all computer players play the same strategy
   // playable positions are assigned a score and sorted
   // computer 'attempts' to play each in order,
@@ -233,7 +243,7 @@ function findNextPlay(diff, board, toPlay) {
       let [row, col] = square;
       return { row, col, score: scorePlay(square, board, toPlay) };
     })
-    .sort((a, b) => b.score - a.score);
+    .sort(sortScoredSquares);
 
   console.log(orderedPlays);
 
