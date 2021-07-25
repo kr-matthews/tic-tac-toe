@@ -5,6 +5,7 @@ import {
   lines,
   scorePlayRelativeToLine,
   arrIncludes,
+  doSquaresRotate,
 } from "./computerPlayers.js";
 
 const board = [
@@ -19,7 +20,7 @@ const board2 = [
   [1, 0, 0],
 ];
 
-it("test", () => {
+it("filtering and scoring", () => {
   expect(allSquares.filter((square) => isValidPlay(square, board))).toEqual([
     [0, 0],
     [1, 0],
@@ -66,3 +67,17 @@ it("test", () => {
       .sort((a, b) => b - a)[0]
   ).toEqual(expect.any(Number));
 });
+
+it("rotating pieces", () => {
+  expect(doSquaresRotate([0, 0], [0, 0], 0)).toEqual(true);
+  expect(doSquaresRotate([0, 0], [2, 0], 0)).toEqual(false);
+  expect(doSquaresRotate([0, 0], [2, 0], 1)).toEqual(false);
+  expect(doSquaresRotate([0, 0], [2, 0], 2)).toEqual(false);
+  expect(doSquaresRotate([0, 0], [2, 0], 3)).toEqual(true);
+  expect(doSquaresRotate([1, 1], [1, 1], 0)).toEqual(true);
+  expect(doSquaresRotate([1, 1], [1, 1], 7)).toEqual(true);
+  expect(doSquaresRotate([1, 2], [2, 1], 1)).toEqual(true);
+  expect(doSquaresRotate([1, 2], [1, 0], 2)).toEqual(true);
+});
+
+it("rotating board", () => {});

@@ -186,10 +186,34 @@ function isValidPlay(square, board) {
   let [row, col] = square;
   return board[row][col] === -1;
 }
-// passed to filter, removes it
-function removeIsomorphicSquares(square, ind, squares) {
-  // TODO:
-  return true;
+// passed to filter, removes it if it's equivalent to another play
+function removeIsomorphicSquares(board, square1, ind1, squares) {
+  // check whether any square is before it and is isomorphic
+  return squares.some((square2, ind2) => {
+    if (ind2 >= ind1) {
+      // square2 is (equal to or) after square
+      return false;
+    } else {
+      return [1, 2, 3].some((rotation) => {
+        return (
+          doSquaresRotate(square1, square2, rotation) &&
+          doesBoardRotate(board, rotation)
+        );
+      });
+    }
+  });
+}
+// does sq1 rotate to sq2 in rotation rotations
+function doSquaresRotate(sq1, sq2, rotation) {
+  if (rotation === 0) {
+    return arrEq(sq1, sq2);
+  } else {
+    return doSquaresRotate([sq1[1], 2 - sq1[0]], sq2, rotation - 1);
+  }
+}
+// does board look same after rotation rotations
+function doesBoardRotate(board, rotation) {
+  return false;
 }
 function scorePlay(square, board, toPlay) {
   var score = 0;
@@ -245,7 +269,9 @@ function findNextPlay(diff, board, toPlay) {
   //   with weighted success rate (based on difficulty of computer player)
   let orderedPlays = _.shuffle(allSquares.slice())
     .filter((square) => isValidPlay(square, board))
-    .filter(removeIsomorphicSquares)
+    .filter((square, index, squares) =>
+      removeIsomorphicSquares(board, square, index, squares)
+    )
     .map((square) => {
       let [row, col] = square;
       return { row, col, score: scorePlay(square, board, toPlay) };
@@ -272,4 +298,5 @@ export {
   lines,
   scorePlayRelativeToLine,
   arrIncludes,
+  doSquaresRotate,
 };
