@@ -203,13 +203,17 @@ function removeIsomorphicSquares(board, square1, ind1, squares) {
     }
   });
 }
+// rotate square position clockwise, 1 rotation being 90 degrees
+function rotateSquare(square, rotation) {
+  if (rotation % 4 === 0) {
+    return square;
+  } else {
+    return rotateSquare([square[1], 2 - square[0]], rotation - 1);
+  }
+}
 // does sq1 rotate to sq2 in rotation rotations
 function doSquaresRotate(sq1, sq2, rotation) {
-  if (rotation === 0) {
-    return arrEq(sq1, sq2);
-  } else {
-    return doSquaresRotate([sq1[1], 2 - sq1[0]], sq2, rotation - 1);
-  }
+  return arrEq(rotateSquare(sq1, rotation), sq2);
 }
 // does board look same after rotation rotations
 function doesBoardRotate(board, rotation) {
@@ -298,5 +302,6 @@ export {
   lines,
   scorePlayRelativeToLine,
   arrIncludes,
+  rotateSquare,
   doSquaresRotate,
 };

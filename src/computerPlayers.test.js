@@ -5,6 +5,7 @@ import {
   lines,
   scorePlayRelativeToLine,
   arrIncludes,
+  rotateSquare,
   doSquaresRotate,
 } from "./computerPlayers.js";
 
@@ -68,7 +69,14 @@ it("filtering and scoring", () => {
   ).toEqual(expect.any(Number));
 });
 
-it("rotating pieces", () => {
+it("rotate squares", () => {
+  expect(rotateSquare([0, 0], 1)).toEqual([0, 2]);
+  expect(rotateSquare([0, 0], 3)).toEqual([2, 0]);
+  expect(rotateSquare([1, 1], 1)).toEqual([1, 1]);
+  expect(rotateSquare([2, 1], 1)).toEqual([1, 0]);
+});
+
+it("checking if rotating square matches", () => {
   expect(doSquaresRotate([0, 0], [0, 0], 0)).toEqual(true);
   expect(doSquaresRotate([0, 0], [2, 0], 0)).toEqual(false);
   expect(doSquaresRotate([0, 0], [2, 0], 1)).toEqual(false);
