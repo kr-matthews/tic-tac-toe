@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-import { computerName, computerColour } from "./computerPlayers.js";
+import {
+  computerName,
+  computerColour,
+  getDifficulty,
+} from "./computerPlayersAndStrategy/computerPlayerValues.js";
 
 function isColour(str) {
   let s = new Option().style;
@@ -32,13 +36,6 @@ function numericAdjective(num) {
     return num + "rd";
   } else {
     return num + "th";
-  }
-}
-function getDifficulty(diff) {
-  if (diff) {
-    return parseInt(diff, 10);
-  } else {
-    return Math.floor(Math.random() * 3);
   }
 }
 

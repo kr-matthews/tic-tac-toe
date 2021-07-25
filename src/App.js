@@ -7,7 +7,8 @@ import Board from "./Board.js";
 import GameMessage from "./GameMessage.js";
 import SelectRestart from "./SelectRestart.js";
 
-import { computerColour, findNextPlay } from "./computerPlayers.js";
+import { findNextPlay } from "./computerPlayersAndStrategy/computerPlayers.js";
+import { computerColour } from "./computerPlayersAndStrategy/computerPlayerValues.js";
 
 import "./index.css";
 
@@ -41,6 +42,7 @@ function App() {
         placePiece(row, col);
       }, 700 + players[toPlay].difficulty * 350);
     }
+    // eslint-disable-next-line
   }, [toPlay]);
   useEffect(() => {
     // reselect a computer colour if necessary to avoid conflict
@@ -55,6 +57,7 @@ function App() {
         setPlayers(newPlayers);
       }
     }
+    // eslint-disable-next-line
   }, [players.length]);
 
   /* functions */
