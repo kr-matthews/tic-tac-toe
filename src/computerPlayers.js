@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 // player-specific values
 
 // names of computer players
@@ -184,6 +186,11 @@ function isValidPlay(square, board) {
   let [row, col] = square;
   return board[row][col] === -1;
 }
+// passed to filter, removes it
+function removeIsomorphicSquares(square, ind, squares) {
+  // TODO:
+  return true;
+}
 function scorePlay(square, board, toPlay) {
   var score = 0;
   lines
@@ -222,9 +229,6 @@ function scorePlayRelativeToLine(square, board, line, toPlay) {
 function sortScoredSquares(a, b) {
   if (b.score !== a.score) {
     return b.score - a.score;
-  } else {
-    // randomize order of squares with a common score
-    return Math.random() > 0.5 ? 1 : -1;
   }
 }
 
@@ -234,11 +238,14 @@ function findNextPlay(diff, board, toPlay) {
   // PROBLEM: on first move, first 4 options are corners, so they are virtually always selected, even for rookie ron
 
   // all computer players play the same strategy
-  // playable positions are assigned a score and sorted
+  // playable positions are shuffled, assigned a score, and sorted
+  //  (not quite that order) - and isomorphic options are removed
+  //    (otherwise they get bunched and the chances of skipping are tiny)
   // computer 'attempts' to play each in order,
   //   with weighted success rate (based on difficulty of computer player)
-  let orderedPlays = allSquares
+  let orderedPlays = _.shuffle(allSquares.slice())
     .filter((square) => isValidPlay(square, board))
+    .filter(removeIsomorphicSquares)
     .map((square) => {
       let [row, col] = square;
       return { row, col, score: scorePlay(square, board, toPlay) };
