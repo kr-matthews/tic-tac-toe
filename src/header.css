@@ -10,7 +10,7 @@
 .spec {
   padding: 0.2em 0;
   vertical-align: middle;
-  height: 1em;
+  min-height: 1em;
 }
 
 .draws {
