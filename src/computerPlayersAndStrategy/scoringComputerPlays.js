@@ -102,3 +102,4 @@ function scorePlay(square, board, toPlay) {
 }
 
 export { scorePlay };
+export { scorePlayRelativeToLine, arrIncludes };

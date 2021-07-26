@@ -71,3 +71,4 @@ function findNextPlay(diff, board, toPlay) {
 }
 
 export { findNextPlay };
+export { isValidPlay };

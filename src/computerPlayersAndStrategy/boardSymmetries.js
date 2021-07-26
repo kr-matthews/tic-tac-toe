@@ -90,3 +90,4 @@ function doBoardsReflect(board1, board2, reflection) {
 
 export { isNotDuplicate };
 export { doSquaresRotate, doBoardsRotate, doSquaresReflect, doBoardsReflect };
+export { rotateSquare };
