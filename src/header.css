@@ -1,0 +1,26 @@
+.infoBox {
+  display: inline-block;
+  width: 10em;
+}
+
+.infoBox .spec {
+  display: block;
+}
+
+.spec {
+  padding: 0.2em 0;
+  vertical-align: middle;
+  height: 1em;
+}
+
+.draws {
+  display: inline-block;
+  width: 6em;
+}
+
+@media (max-width: 850px) {
+  .draws {
+    display: block;
+    margin: auto;
+  }
+}

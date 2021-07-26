@@ -11,6 +11,7 @@ import { findNextPlay } from "./computerPlayersAndStrategy/computerStrategy.js";
 import { computerColour } from "./computerPlayersAndStrategy/computerPlayerValues.js";
 
 import "./index.css";
+import "./header.css";
 import "./board.css";
 
 // TODO: ideally, the board functions should be compartmentalized in their
@@ -112,6 +113,10 @@ function App() {
     setBoard(initBoard);
     setOutcome(-1);
     setToPlay(-1);
+    let newPlayers = [...players];
+    delete newPlayers[0].piece;
+    delete newPlayers[1].piece;
+    setPlayers(newPlayers);
   }
 
   /* return */
