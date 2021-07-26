@@ -29,6 +29,9 @@ function isNotDuplicate(board, square1, ind1, squares) {
     }
   });
 }
+
+// ROTATIONS
+
 // rotate square position clockwise, 1 rotation being 90 degrees
 function rotateSquare(square, rotation) {
   if (rotation % 4 === 0) {
@@ -37,10 +40,12 @@ function rotateSquare(square, rotation) {
     return rotateSquare([square[1], 2 - square[0]], rotation - 1);
   }
 }
+
 // does sq1 rotate to sq2 in rotation rotations
 function doSquaresRotate(sq1, sq2, rotation) {
   return _.isEqual(rotateSquare(sq1, rotation), sq2);
 }
+
 // does board1 look like board2 after rotation rotations
 function doBoardsRotate(board1, board2, rotation) {
   return allSquares.every((square) => {
@@ -50,7 +55,9 @@ function doBoardsRotate(board1, board2, rotation) {
   });
 }
 
-// reflect square using arbitrary indexing of reflections
+// REFLECTIONS
+
+// reflect square using ARBITRARY indexing of reflections
 function reflectSquare(square, reflection) {
   let [row, col] = square;
   switch (reflection) {
@@ -66,10 +73,12 @@ function reflectSquare(square, reflection) {
       return "Error";
   }
 }
+
 // does sq1 reflect to sq2 via reflection given
 function doSquaresReflect(sq1, sq2, reflection) {
   return _.isEqual(reflectSquare(sq1, reflection), sq2);
 }
+
 // does board1 look like board2 after given reflection
 function doBoardsReflect(board1, board2, reflection) {
   return allSquares.every((square) => {

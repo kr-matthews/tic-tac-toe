@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import { isNotDuplicate } from "./boardSymmetries.js";
 import { allSquares } from "./boardLists.js";
-import { scorePlay, sortScoredSquares } from "./scoringComputerPlays.js";
+import { scorePlay } from "./scoringComputerPlays.js";
 import { computerOptimalRate } from "./computerPlayerValues.js";
 
 // helper functions ---------------------------------------
@@ -15,6 +15,7 @@ import { computerOptimalRate } from "./computerPlayerValues.js";
 //   }
 //   return { row, col };
 // }
+
 // // randomly sample until an open spot is found
 // function randomPlay(board) {
 //   return randomPlayWithPreference(
@@ -23,17 +24,23 @@ import { computerOptimalRate } from "./computerPlayerValues.js";
 //     Math.floor(Math.random() * 3)
 //   );
 // }
+
 // check whether the spot on the board is open
 function isValidPlay(square, board) {
   let [row, col] = square;
   return board[row][col] === -1;
 }
 
+// when applied, the array is pre-shuffled, so ties are already randomly broken
+function sortScoredSquares(a, b) {
+  if (b.score !== a.score) {
+    return b.score - a.score;
+  }
+}
+
 // primary function ----------------------------------------
 
 function findNextPlay(diff, board, toPlay) {
-  // PROBLEM: on first move, first 4 options are corners, so they are virtually always selected, even for rookie ron
-
   // all computer players play the same strategy
   // playable positions are shuffled, assigned a score, and sorted
   //  (not quite that order) - and isomorphic options are removed
@@ -53,16 +60,14 @@ function findNextPlay(diff, board, toPlay) {
 
   console.log(orderedPlays);
 
-  while (true) {
-    for (let square of orderedPlays) {
-      if (computerOptimalRate(diff) > Math.random()) {
-        return square;
-      }
+  for (let square of orderedPlays) {
+    if (computerOptimalRate(diff) > Math.random()) {
+      return square;
     }
   }
-  // // randomly sample squares until an open one is found
-  // // bad, should randomly pick something from orderedPlays, or retry from top
-  // return randomPlay(board);
+
+  // if each square in the ordered list was rejected, select one randomly
+  return _.shuffle(orderedPlays)[0];
 }
 
 export { findNextPlay };
