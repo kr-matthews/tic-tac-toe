@@ -1,0 +1,20 @@
+.board {
+  border-collapse: collapse;
+  margin: 1em auto;
+}
+
+.square {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+}
+
+.right {
+  border-right: solid 4px;
+}
+
+.bottom {
+  border-bottom: solid 4px;
+}

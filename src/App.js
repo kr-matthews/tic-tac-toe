@@ -11,6 +11,7 @@ import { findNextPlay } from "./computerPlayersAndStrategy/computerStrategy.js";
 import { computerColour } from "./computerPlayersAndStrategy/computerPlayerValues.js";
 
 import "./index.css";
+import "./board.css";
 
 // TODO: ideally, the board functions should be compartmentalized in their
 //  own file - which requires a lot of prop drilling, so context should be used

@@ -10,8 +10,8 @@ function SelectGoFirst({ players, setPlayers, setToPlay }) {
             onClick={() => {
               setToPlay(index);
               let newPlayers = [...players];
-              newPlayers[index].piece = "x";
-              newPlayers[1 - index].piece = "o";
+              newPlayers[index].piece = "X";
+              newPlayers[1 - index].piece = "O";
               setPlayers(newPlayers);
             }}
           >
