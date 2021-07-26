@@ -12,6 +12,9 @@ import { computerColour } from "./computerPlayersAndStrategy/computerPlayerValue
 
 import "./index.css";
 
+// TODO: ideally, the board functions should be compartmentalized in their
+//  own file - which requires a lot of prop drilling, so context should be used
+
 function App() {
   /* constants */
 
@@ -88,13 +91,13 @@ function App() {
   function won(r, c) {
     //todo: redo with "lines"
     return (
-      all_eq([toPlay, board[0][c], board[1][c], board[2][c]]) ||
-      all_eq([toPlay, board[r][0], board[r][1], board[r][2]]) ||
-      all_eq([toPlay, board[0][0], board[1][1], board[2][2]]) ||
-      all_eq([toPlay, board[0][2], board[1][1], board[2][0]])
+      allEq([toPlay, board[0][c], board[1][c], board[2][c]]) ||
+      allEq([toPlay, board[r][0], board[r][1], board[r][2]]) ||
+      allEq([toPlay, board[0][0], board[1][1], board[2][2]]) ||
+      allEq([toPlay, board[0][2], board[1][1], board[2][0]])
     );
   }
-  function all_eq(arr) {
+  function allEq(arr) {
     return new Set(arr).size === 1;
   }
 
