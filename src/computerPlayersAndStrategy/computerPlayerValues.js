@@ -25,11 +25,11 @@ function computerColour(diff) {
     case 0:
       return "green";
     case 1:
-      return "yellow";
+      return "blue";
     case 2:
       return "red";
     default:
-      return "purple";
+      return "orange";
   }
 }
 // given a move to play, the chances the computer player will take it
