@@ -11,6 +11,19 @@
   height: 2em;
 }
 
+.square button {
+  width: 100%;
+  height: 100%;
+  font-size: 100%;
+  background-color: transparent;
+  border: none;
+}
+
+.square button:hover {
+  cursor: pointer;
+  background-color: LightGrey;
+}
+
 .right {
   border-right: solid 4px;
 }

@@ -42,9 +42,7 @@ function BoardSquare({
           key={c_ind}
           type="button"
           onClick={() => placePiece(r_ind, c_ind)}
-        >
-          .
-        </button>
+        ></button>
       </td>
     );
   } else {
