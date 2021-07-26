@@ -7,7 +7,7 @@ import Board from "./Board.js";
 import GameMessage from "./GameMessage.js";
 import SelectRestart from "./SelectRestart.js";
 
-import { findNextPlay } from "./computerPlayersAndStrategy/computerPlayers.js";
+import { findNextPlay } from "./computerPlayersAndStrategy/computerStrategy.js";
 import { computerColour } from "./computerPlayersAndStrategy/computerPlayerValues.js";
 
 import "./index.css";

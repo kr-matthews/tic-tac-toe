@@ -3,26 +3,26 @@ import _ from "lodash";
 import { isNotDuplicate } from "./boardSymmetries.js";
 import { allSquares } from "./boardLists.js";
 import { scorePlay, sortScoredSquares } from "./scoringComputerPlays.js";
-import { probabilityOfOptimalPlay } from "./computerPlayerValues";
+import { computerOptimalRate } from "./computerPlayerValues.js";
 
 // helper functions ---------------------------------------
 
-// randomly sample until an open spot is found, with given starting point
-function randomPlayWithPreference(board, row, col) {
-  while (board[row][col] !== -1) {
-    row = Math.floor(Math.random() * 3);
-    col = Math.floor(Math.random() * 3);
-  }
-  return { row, col };
-}
-// randomly sample until an open spot is found
-function randomPlay(board) {
-  return randomPlayWithPreference(
-    board,
-    Math.floor(Math.random() * 3),
-    Math.floor(Math.random() * 3)
-  );
-}
+// // randomly sample until an open spot is found, with given starting point
+// function randomPlayWithPreference(board, row, col) {
+//   while (board[row][col] !== -1) {
+//     row = Math.floor(Math.random() * 3);
+//     col = Math.floor(Math.random() * 3);
+//   }
+//   return { row, col };
+// }
+// // randomly sample until an open spot is found
+// function randomPlay(board) {
+//   return randomPlayWithPreference(
+//     board,
+//     Math.floor(Math.random() * 3),
+//     Math.floor(Math.random() * 3)
+//   );
+// }
 // check whether the spot on the board is open
 function isValidPlay(square, board) {
   let [row, col] = square;
@@ -53,13 +53,16 @@ function findNextPlay(diff, board, toPlay) {
 
   console.log(orderedPlays);
 
-  for (let square of orderedPlays) {
-    if (probabilityOfOptimalPlay(diff) > Math.random()) {
-      return square;
+  while (true) {
+    for (let square of orderedPlays) {
+      if (computerOptimalRate(diff) > Math.random()) {
+        return square;
+      }
     }
   }
-  // randomly sample squares until an open one is found
-  return randomPlay(board);
+  // // randomly sample squares until an open one is found
+  // // bad, should randomly pick something from orderedPlays, or retry from top
+  // return randomPlay(board);
 }
 
 export { findNextPlay };

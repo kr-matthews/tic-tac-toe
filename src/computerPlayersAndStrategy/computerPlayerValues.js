@@ -1,3 +1,11 @@
+// given difficulty in string form (or "" indicating random) return integer
+function getDifficulty(diff) {
+  if (diff) {
+    return parseInt(diff, 10);
+  } else {
+    return Math.floor(Math.random() * 3);
+  }
+}
 // names of computer players
 function computerName(diff) {
   switch (diff) {
@@ -24,16 +32,8 @@ function computerColour(diff) {
       return "purple";
   }
 }
-
-function getDifficulty(diff) {
-  if (diff) {
-    return parseInt(diff, 10);
-  } else {
-    return Math.floor(Math.random() * 3);
-  }
-}
 // given a move to play, the chances the computer player will take it
-function probabilityOfOptimalPlay(diff) {
+function computerOptimalRate(diff) {
   switch (diff) {
     case 0:
       return 0.55;
@@ -46,9 +46,4 @@ function probabilityOfOptimalPlay(diff) {
   }
 }
 
-export {
-  computerName,
-  computerColour,
-  probabilityOfOptimalPlay,
-  getDifficulty,
-};
+export { getDifficulty, computerName, computerColour, computerOptimalRate };
