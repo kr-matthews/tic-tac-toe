@@ -1,7 +1,7 @@
 function SelectGoFirst({ players, setPlayers, setToPlay }) {
   return (
     <>
-      <div>Select which player will go first.</div>
+      <div className="message">Select which player will go first.</div>
       {players.map((player, index) => {
         return (
           <button
