@@ -42,6 +42,7 @@ function numericAdjective(num) {
 function PlayerSelection({ players, setPlayers }) {
   return (
     <>
+      <h4>Tic Tac Toe</h4>
       <div>
         Enter the {numericAdjective(players.length).toLowerCase()} player's
         information, <u>or</u> select a difficulty for a computer-controlled
