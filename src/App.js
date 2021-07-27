@@ -13,6 +13,7 @@ import { computerColour } from "./computerPlayersAndStrategy/computerPlayerValue
 import "./index.css";
 import "./header.css";
 import "./board.css";
+import "./buttonsAndForms.css";
 
 // TODO: ideally, the board functions should be compartmentalized in their
 //  own file - which requires a lot of prop drilling, so context should be used

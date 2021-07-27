@@ -1,0 +1,11 @@
+/* don't want to include board buttons here */
+.button {
+  font-size: 100%;
+  padding: 0.15em;
+  margin: 0.25em;
+  padding: 0.15em;
+}
+
+.button:hover {
+  cursor: pointer;
+}

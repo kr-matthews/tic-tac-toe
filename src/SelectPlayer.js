@@ -85,6 +85,7 @@ function SelectHuman({ players, setPlayers }) {
         />
       </label>
       <input
+        className="button"
         type="submit"
         value="Submit"
         onClick={(e) => {
@@ -134,6 +135,7 @@ function SelectComputer({ players, setPlayers }) {
         </select>
       </label>
       <input
+        className="button"
         type="submit"
         value="Submit"
         onClick={(e) => {

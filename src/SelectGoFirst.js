@@ -5,8 +5,10 @@ function SelectGoFirst({ players, setPlayers, setToPlay }) {
       {players.map((player, index) => {
         return (
           <button
+            className="button"
             key={index}
             type="button"
+            //style={{ borderColor: player.colour }}
             onClick={() => {
               setToPlay(index);
               let newPlayers = [...players];
@@ -15,7 +17,7 @@ function SelectGoFirst({ players, setPlayers, setToPlay }) {
               setPlayers(newPlayers);
             }}
           >
-            {player.name}
+            <font style={{ color: player.colour }}>{player.name}</font>
           </button>
         );
       })}
