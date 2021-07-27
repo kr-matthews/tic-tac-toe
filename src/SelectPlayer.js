@@ -44,7 +44,8 @@ function PlayerSelection({ players, setPlayers }) {
     <>
       <div>
         Enter the {numericAdjective(players.length).toLowerCase()} player's
-        information, or select a difficulty for a computer-controlled player.
+        information, <u>or</u> select a difficulty for a computer-controlled
+        player.
       </div>
       <SelectHuman players={players} setPlayers={setPlayers} />
       <SelectComputer players={players} setPlayers={setPlayers} />
@@ -57,14 +58,14 @@ function SelectHuman({ players, setPlayers }) {
   const [player, setPlayer] = useState({ name: "", colour: "" });
 
   return (
-    <form>
+    <form className="playerForm human">
       <label htmlFor="name">
         Name:
         <input
           type="text"
           id="name"
           name="name"
-          placeholder="Enter a display name..."
+          placeholder="display name"
           value={player.name}
           onChange={(e) => {
             setPlayer({ ...player, name: e.target.value });
@@ -72,12 +73,14 @@ function SelectHuman({ players, setPlayers }) {
         />
       </label>
       <label htmlFor="colour">
-        Colour:
+        <font style={isColour(player.colour) ? { color: player.colour } : {}}>
+          Colour:
+        </font>
         <input
           type="text"
           id="colour"
           name="colour"
-          placeholder="Pick your piece colour..."
+          placeholder="name or hex/decimal code"
           value={player.colour}
           onChange={(e) => {
             setPlayer({ ...player, colour: e.target.value.toLowerCase() });
@@ -87,9 +90,10 @@ function SelectHuman({ players, setPlayers }) {
       <input
         className="button"
         type="submit"
-        value="Submit"
+        value="Submit Human"
         onClick={(e) => {
           e.preventDefault();
+          // maybe later check to see whether they selected the background colour as their piece colour and reject it
           if (isColour(player.colour)) {
             setPlayers([
               ...players,
@@ -117,7 +121,7 @@ function SelectComputer({ players, setPlayers }) {
   const [player, setPlayer] = useState({ difficulty: "" });
 
   return (
-    <form>
+    <form className="playerForm computer">
       <label htmlFor="difficulty">
         Difficulty:
         <select
@@ -137,7 +141,7 @@ function SelectComputer({ players, setPlayers }) {
       <input
         className="button"
         type="submit"
-        value="Submit"
+        value="Submit Computer"
         onClick={(e) => {
           e.preventDefault();
           let diff = getDifficulty(player.difficulty);
