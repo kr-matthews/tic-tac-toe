@@ -93,8 +93,9 @@ function SelectHuman({ players, setPlayers }) {
         value="Submit Human"
         onClick={(e) => {
           e.preventDefault();
-          // maybe later check to see whether they selected the background colour as their piece colour and reject it
-          if (isColour(player.colour)) {
+          if (player.name === "") {
+            alert("Please enter a name with at least one character.");
+          } else if (isColour(player.colour)) {
             setPlayers([
               ...players,
               {
@@ -108,7 +109,10 @@ function SelectHuman({ players, setPlayers }) {
             ]);
             setPlayer({ ...player, name: "", colour: "" });
           } else {
-            alert("Enter a valid colour.");
+            // maybe later check to see whether they selected the background colour as their piece colour and reject it
+            alert(
+              "Please enter a valid colour.\nUse a name ('red'), hex code ('#FF0000'), or decimal code ('rgb(255,0,0)')."
+            );
           }
         }}
       />
