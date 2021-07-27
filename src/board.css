@@ -24,6 +24,10 @@
   background-color: LightGrey;
 }
 
+.winner {
+  background-color: LightGrey;
+}
+
 .right {
   border-right: solid 4px;
 }

@@ -9,6 +9,7 @@ import SelectRestart from "./SelectRestart.js";
 
 import { findNextPlay } from "./computerPlayersAndStrategy/computerStrategy.js";
 import { computerColour } from "./computerPlayersAndStrategy/computerPlayerValues.js";
+import { checkForWin, isFull } from "./Board.js";
 
 import "./index.css";
 import "./header.css";
@@ -68,16 +69,18 @@ function App() {
 
   /* functions */
   function placePiece(r_ind, c_ind) {
+    // first place the piece
     let newBoard = [...board];
     newBoard[r_ind][c_ind] = toPlay;
     setBoard(newBoard);
-    if (won(r_ind, c_ind)) {
+    // now check whether the game is over and act accordingly
+    if (checkForWin(board).length > 0) {
       setOutcome(toPlay);
       let newPlayers = [...players];
       newPlayers[toPlay].wins += 1;
       newPlayers[1 - toPlay].loses += 1;
       setPlayers(newPlayers);
-    } else if (full()) {
+    } else if (isFull(board)) {
       setOutcome(2);
       let newPlayers = [...players];
       newPlayers[toPlay].draws += 1;
@@ -86,22 +89,6 @@ function App() {
     } else {
       setToPlay(1 - toPlay);
     }
-  }
-  /* check properties of the board */
-  function full() {
-    return ![...board[0], ...board[1], ...board[2]].includes(-1);
-  }
-  function won(r, c) {
-    //todo: redo with "lines"
-    return (
-      allEq([toPlay, board[0][c], board[1][c], board[2][c]]) ||
-      allEq([toPlay, board[r][0], board[r][1], board[r][2]]) ||
-      allEq([toPlay, board[0][0], board[1][1], board[2][2]]) ||
-      allEq([toPlay, board[0][2], board[1][1], board[2][0]])
-    );
-  }
-  function allEq(arr) {
-    return new Set(arr).size === 1;
   }
 
   /* reset states */

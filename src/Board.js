@@ -1,3 +1,5 @@
+import { lines } from "./computerPlayersAndStrategy/boardLists.js";
+
 // given as className to table cells, dictating where to draw borders
 function borders(r_ind, c_ind) {
   var ans = "";
@@ -10,7 +12,31 @@ function borders(r_ind, c_ind) {
   return ans;
 }
 
+/* check properties of the board */
+function isFull(board) {
+  return ![...board[0], ...board[1], ...board[2]].includes(-1);
+}
+function checkForWin(board) {
+  return lines.filter((line) => {
+    let pieces = line.map(([r, c]) => {
+      return board[r][c];
+    });
+    return !pieces.includes(-1) && allEq(pieces);
+  });
+}
+function allEq(arr) {
+  return new Set(arr).size === 1;
+}
+function isIn(arrs, p, q) {
+  return arrs.some((arr) => {
+    return arr.some(([a, b]) => {
+      return a === p && b === q;
+    });
+  });
+}
+
 function BoardSquare({
+  winner,
   square,
   r_ind,
   c_ind,
@@ -24,7 +50,7 @@ function BoardSquare({
   if (square !== -1) {
     /* piece already placed here */
     return (
-      <td className={tdClass}>
+      <td className={tdClass + (winner ? " winner" : "")}>
         <font style={{ color: players[square].colour }}>
           {players[square].piece}
         </font>
@@ -52,6 +78,7 @@ function BoardSquare({
 }
 
 function Board({ board, players, toPlay, outcome, placePiece }) {
+  let winLines = checkForWin(board);
   return (
     <table className="board">
       <tbody>
@@ -61,6 +88,7 @@ function Board({ board, players, toPlay, outcome, placePiece }) {
               {row.map((square, c_ind) => {
                 return (
                   <BoardSquare
+                    winner={isIn(winLines, r_ind, c_ind)}
                     key={c_ind}
                     square={square}
                     r_ind={r_ind}
@@ -81,3 +109,5 @@ function Board({ board, players, toPlay, outcome, placePiece }) {
 }
 
 export default Board;
+
+export { checkForWin, isFull };
