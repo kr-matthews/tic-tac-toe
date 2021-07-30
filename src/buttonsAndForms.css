@@ -24,3 +24,7 @@ select {
   font-size: 100%;
   margin: 0.2em;
 }
+
+.hide {
+  visibility: hidden;
+}

@@ -72,11 +72,10 @@ function SelectHuman({ players, setPlayers }) {
             setPlayer({ ...player, name: e.target.value });
           }}
         />
+        <span className={player.name === "" ? "hide" : ""}>&#10003;</span>
       </label>
       <label htmlFor="colour">
-        <font style={isColour(player.colour) ? { color: player.colour } : {}}>
-          Colour:
-        </font>
+        Colour:
         <input
           type="text"
           id="colour"
@@ -87,6 +86,12 @@ function SelectHuman({ players, setPlayers }) {
             setPlayer({ ...player, colour: e.target.value.toLowerCase() });
           }}
         />
+        <span
+          className={isColour(player.colour) ? "" : "hide"}
+          style={isColour(player.colour) ? { color: player.colour } : {}}
+        >
+          &#10003;
+        </span>
       </label>
       <input
         className="button"
