@@ -6,10 +6,13 @@ import {
   getDifficulty,
 } from "./computerPlayersAndStrategy/computerPlayerValues.js";
 
-function isColour(str) {
+function isValidColour(str) {
   let s = new Option().style;
   s.color = str;
   return s.color !== "";
+}
+function isValidName(str) {
+  return str && str.trim();
 }
 function numericAdjective(num) {
   if (num < 13) {
@@ -72,7 +75,7 @@ function SelectHuman({ players, setPlayers }) {
             setPlayer({ ...player, name: e.target.value });
           }}
         />
-        <span className={player.name === "" ? "hide" : ""}>&#10003;</span>
+        <span className={isValidName(player.name) ? "" : "hide"}>&#10003;</span>
       </label>
       <label htmlFor="colour">
         Colour:
@@ -87,8 +90,8 @@ function SelectHuman({ players, setPlayers }) {
           }}
         />
         <span
-          className={isColour(player.colour) ? "" : "hide"}
-          style={isColour(player.colour) ? { color: player.colour } : {}}
+          className={isValidColour(player.colour) ? "" : "hide"}
+          style={isValidColour(player.colour) ? { color: player.colour } : {}}
         >
           &#10003;
         </span>
@@ -99,13 +102,20 @@ function SelectHuman({ players, setPlayers }) {
         value="Submit Human"
         onClick={(e) => {
           e.preventDefault();
-          if (player.name === "") {
-            alert("Please enter a name with at least one character.");
-          } else if (isColour(player.colour)) {
+          if (!isValidName(player.name)) {
+            alert(
+              "Please enter a name with at least one non-whitespace character."
+            );
+          } else if (!isValidColour(player.colour)) {
+            // maybe later check to see whether they selected the background colour as their piece colour and reject it
+            alert(
+              "Please enter a valid colour.\nUse a name ('red'), hex code ('#FF0000'), or decimal code ('rgb(255,0,0)')."
+            );
+          } else {
             setPlayers([
               ...players,
               {
-                name: player.name,
+                name: player.name.trim(),
                 colour: player.colour,
                 type: "human",
                 wins: 0,
@@ -114,11 +124,6 @@ function SelectHuman({ players, setPlayers }) {
               },
             ]);
             setPlayer({ ...player, name: "", colour: "" });
-          } else {
-            // maybe later check to see whether they selected the background colour as their piece colour and reject it
-            alert(
-              "Please enter a valid colour.\nUse a name ('red'), hex code ('#FF0000'), or decimal code ('rgb(255,0,0)')."
-            );
           }
         }}
       />
