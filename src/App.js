@@ -6,6 +6,7 @@ import SelectGoFirst from "./SelectGoFirst.js";
 import Board from "./Board.js";
 import GameMessage from "./GameMessage.js";
 import SelectRestart from "./SelectRestart.js";
+import Links from "./links/Links.js";
 
 import { findNextPlay } from "./computerPlayersAndStrategy/computerStrategy.js";
 import { computerColour } from "./computerPlayersAndStrategy/computerPlayerValues.js";
@@ -110,7 +111,12 @@ function App() {
   /* return */
 
   if (players.length < 2) {
-    return <SelectPlayer players={players} setPlayers={setPlayers} />;
+    return (
+      <>
+        <SelectPlayer players={players} setPlayers={setPlayers} />
+        <Links gitHubLink="https://github.com/kr-matthews/tic-tac-toe" />
+      </>
+    );
   } else if (toPlay === -1) {
     /* pick who goes first */
     return (
