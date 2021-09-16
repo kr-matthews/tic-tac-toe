@@ -18,7 +18,6 @@ function Links({ gitHubLink }) {
   );
 }
 
-// TODO: add hover text
 function Link({ url, image, description }) {
   return (
     <a
