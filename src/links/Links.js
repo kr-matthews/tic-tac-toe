@@ -1,12 +1,17 @@
 import "./links.css";
 
 import gitHubImage from "./github.png";
+import gitHubImageDark from "./github-dark.png";
 import websiteImage from "./website-logo.svg";
 
-function Links({ gitHubLink }) {
+function Links({ gitHubLink, themeType = "light" }) {
   const links = [
     ["Personal Website", "https://kr-matthews.github.io/", websiteImage],
-    ["GitHub", gitHubLink, gitHubImage],
+    [
+      "Project Repository",
+      gitHubLink,
+      themeType === "light" ? gitHubImage : gitHubImageDark,
+    ],
   ];
 
   return (
