@@ -4,6 +4,8 @@ This is a simple single-page application where two players (human or computer) c
 
 This was my second project using React, and the first where I wasn't following any type of guide/tutorial. I would do a lot differently if I were to restart this project today.
 
+![Screenshot](src/images/screenshot.png)
+
 ## Play
 
 On GitHub Pages at [https://kr-matthews.github.io/tic-tac-toe/](https://kr-matthews.github.io/tic-tac-toe/).
