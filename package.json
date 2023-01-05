@@ -1,7 +1,7 @@
 {
   "name": "tic-tac-toe",
   "homepage": "https://kr-matthews.github.io/tic-tac-toe",
-  "version": "0.1.0",
+  "version": "2.9.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -11,6 +11,7 @@
     "ansi-regex": "^6.0.1",
     "browserslist": "^4.17.6",
     "color-string": "^1.6.0",
+    "footer-dependency": "github:kr-matthews/footer-dependency#v1.0.1",
     "glob-parent": "^6.0.2",
     "immer": "^9.0.6",
     "is-svg": "^4.3.1",

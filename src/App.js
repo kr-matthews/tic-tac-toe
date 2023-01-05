@@ -1,4 +1,11 @@
 import { useState, useEffect } from "react";
+import {
+  WithHeavyFooter,
+  Body,
+  HeavyFooter,
+  HomeLink,
+  CodeLink,
+} from "footer-dependency/dist/lib";
 
 import Header from "./Header.js";
 import SelectPlayer from "./SelectPlayer.js";
@@ -6,7 +13,6 @@ import SelectGoFirst from "./SelectGoFirst.js";
 import Board from "./Board.js";
 import GameMessage from "./GameMessage.js";
 import SelectRestart from "./SelectRestart.js";
-import Links from "./links/Links.js";
 
 import { findNextPlay } from "./computerPlayersAndStrategy/computerStrategy.js";
 import { computerColour } from "./computerPlayersAndStrategy/computerPlayerValues.js";
@@ -110,52 +116,67 @@ function App() {
 
   /* return */
 
+  const footer = (
+    <HeavyFooter>
+      <HomeLink />
+      <CodeLink gitHubRepoName="tic-tac-toe" />
+    </HeavyFooter>
+  );
+
   if (players.length < 2) {
     return (
-      <>
-        <SelectPlayer players={players} setPlayers={setPlayers} />
-        <Links gitHubLink="https://github.com/kr-matthews/tic-tac-toe" />
-      </>
+      <WithHeavyFooter>
+        <Body>
+          <SelectPlayer players={players} setPlayers={setPlayers} />
+        </Body>
+        {footer}
+      </WithHeavyFooter>
     );
   } else if (toPlay === -1) {
     /* pick who goes first */
     return (
-      <>
-        <Header players={players} />
-        <Board
-          board={board}
-          players={players}
-          toPlay={toPlay}
-          outcome={outcome}
-          placePiece={placePiece}
-        />
-        <SelectGoFirst
-          players={players}
-          setPlayers={setPlayers}
-          setToPlay={setToPlay}
-        />
-      </>
+      <WithHeavyFooter>
+        <Body>
+          <Header players={players} />
+          <Board
+            board={board}
+            players={players}
+            toPlay={toPlay}
+            outcome={outcome}
+            placePiece={placePiece}
+          />
+          <SelectGoFirst
+            players={players}
+            setPlayers={setPlayers}
+            setToPlay={setToPlay}
+          />
+        </Body>
+        {footer}
+      </WithHeavyFooter>
     );
   } else {
     return (
-      <>
-        <Header players={players} />
-        <Board
-          board={board}
-          players={players}
-          toPlay={toPlay}
-          outcome={outcome}
-          placePiece={placePiece}
-        />
-        <GameMessage players={players} toPlay={toPlay} outcome={outcome} />
-        {outcome !== -1 && (
-          <SelectRestart
+      <WithHeavyFooter>
+        <Body>
+          <Header players={players} />
+          <Board
+            board={board}
+            players={players}
+            toPlay={toPlay}
             outcome={outcome}
-            reset={reset}
-            resetBoard={resetBoard}
+            placePiece={placePiece}
           />
-        )}
-      </>
+          <GameMessage players={players} toPlay={toPlay} outcome={outcome} />
+          {outcome !== -1 && (
+            <SelectRestart
+              outcome={outcome}
+              reset={reset}
+              resetBoard={resetBoard}
+            />
+          )}
+        </Body>
+        {footer}
+      </WithHeavyFooter>
     );
   }
 }
